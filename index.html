@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+  <script>
+   const PREFIX = '';
+   const APP_DOM_NODE = document.getElementById(`${PREFIX}app`);
+   const COMMANDS = {
+     "create-view": ["Create view", function(){
+       const textarea = document.createElement("textarea");
+       textarea.className = `${PREFIX}floating`;
+       document.body.append(textarea);
+
+       const newView = document.createElement('div');
+       newView.className = `${PREFIX}new-element`;
+       APP_DOM_NODE.append(newView);
+
+       textarea.addEventListener('keypress', function(){
+         newView.innerHTML = textarea.value;
+       });
+     }]
+   }
+
+   const SHORTCUTS = {
+     v: "create-view"
+   }
+
+   window.addEventListener("keypress", function(event){
+     const command = SHORTCUTS[event.key];
+     if(command){
+       const [description, fn] = COMMANDS[command];
+       fn();
+     } else {
+       //TODO: Report error
+     }
+   });
+  </script>
+  <style>
+   .floating{
+     position: fixed;
+     top: 50%;
+     left: 50%;
+   }
+  </style>
+</html>
